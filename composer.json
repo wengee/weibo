@@ -1,0 +1,16 @@
+{
+    "name": "fwkit/weibo",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fung Wing Kit",
+            "email": "wengee@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-0": {
+            "Weibo": "lib/"
+        }
+    }
+}

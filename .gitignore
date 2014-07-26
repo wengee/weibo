@@ -1,2 +1,6 @@
 # SublimeText project files
 *.sublime-workspace
+
+# Composer files
+vendor/*
+composer.phar

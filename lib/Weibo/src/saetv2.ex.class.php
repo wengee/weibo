@@ -3246,6 +3246,37 @@ class SaeTClientV2
 	}
 
 
+	/**
+	 * 生成短链接
+	 *
+	 * 对应API：{@link https://api.weibo.com/wiki/2/short_url/shorten short_url/shorten}
+	 *
+	 * @param string $url 原始连接URL
+	 * @return array
+	 */
+	function url_shorten( $url )
+	{
+		$params = array();
+		$params['url_long'] = $url;
+		return $this->oauth->get( 'short_url/shorten', $params);
+	}
+
+	/**
+	 * 查询短链接的原始链接
+	 *
+	 * 对应API：{@link https://api.weibo.com/wiki/2/short_url/expand short_url/expand}
+	 *
+	 * @param string $url 短连接URL
+	 * @return array
+	 */
+	function url_expand( $url )
+	{
+		$params = array();
+		$params['url_short'] = $url;
+		return $this->oauth->get( 'short_url/expand', $params);
+	}
+
+
 
 	// =========================================
 

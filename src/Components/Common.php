@@ -1,7 +1,7 @@
 <?php
 /**
  * @author   Fung Wing Kit <wengee@gmail.com>
- * @version  2019-02-22 17:01:40 +0800
+ * @version  2019-02-22 17:30:32 +0800
  */
 namespace fwkit\Weibo\Components;
 
@@ -28,10 +28,9 @@ class Common extends ComponentBase
         $action = new Action($name, $this->actionList[$name]);
         $action->setClient($this->client);
 
-        $params = $args[0] ?? null;
-        if ($params !== null) {
-            if (is_array($params)) {
-                $action->withParams($params);
+        if (array_key_exists(0, $args)) {
+            if (is_array($args[0])) {
+                $action->withParams($args[0]);
             }
             return $action->execute();
         } else {

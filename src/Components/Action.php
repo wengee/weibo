@@ -1,7 +1,7 @@
 <?php
 /**
  * @author   Fung Wing Kit <wengee@gmail.com>
- * @version  2019-02-22 17:11:06 +0800
+ * @version  2019-10-10 15:58:32 +0800
  */
 namespace fwkit\Weibo\Components;
 
@@ -23,6 +23,8 @@ class Action extends ComponentBase
     protected $accessToken = null;
 
     protected $params = [];
+
+    protected $maps = [];
 
     protected $data = [];
 
@@ -50,10 +52,22 @@ class Action extends ComponentBase
         return $this;
     }
 
+    public function hasNoParams(): bool
+    {
+        return $this->params === false ? true : false;
+    }
+
     public function withParam(string $key, $value)
     {
-        $key = snake_case($key);
-        if (empty($this->params) || in_array($key, $this->params)) {
+        if ($this->params === false) {
+            return $this;
+        }
+
+        if ($this->maps && isset($this->maps[$key])) {
+            $key = $this->maps[$key];
+        }
+
+        if (in_array($key, $this->params)) {
             $this->data[$key] = $value;
         }
 

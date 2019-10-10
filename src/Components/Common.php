@@ -1,7 +1,7 @@
 <?php
 /**
  * @author   Fung Wing Kit <wengee@gmail.com>
- * @version  2019-02-22 17:30:32 +0800
+ * @version  2019-10-10 15:57:29 +0800
  */
 namespace fwkit\Weibo\Components;
 
@@ -9,6 +9,8 @@ use fwkit\Weibo\ComponentBase;
 
 class Common extends ComponentBase
 {
+    protected static $actions = [];
+
     protected $name;
 
     protected $actionList = [];
@@ -25,16 +27,20 @@ class Common extends ComponentBase
             throw new \Exception('The operation is undefined.');
         }
 
-        $action = new Action($name, $this->actionList[$name]);
-        $action->setClient($this->client);
-
-        if (array_key_exists(0, $args)) {
-            if (is_array($args[0])) {
-                $action->withParams($args[0]);
-            }
-            return $action->execute();
+        if (!isset(self::$actions[$name])) {
+            $action = new Action($name, $this->actionList[$name]);
+            $action->setClient($this->client);
+            self::$actions[$name] = $action;
         } else {
-            return $action;
+            $action = self::$actions[$name];
         }
+
+        if (isset($args[0]) && is_array($args[0])) {
+            return $action->withParams($args[0])->execute();
+        } elseif (count($args) > 0 || $action->hasNoParams()) {
+            return $action->execute();
+        }
+
+        return $action;
     }
 }

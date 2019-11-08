@@ -1,7 +1,7 @@
 <?php
 /**
  * @author   Fung Wing Kit <wengee@gmail.com>
- * @version  2019-10-10 15:57:29 +0800
+ * @version  2019-11-08 11:52:49 +0800
  */
 namespace fwkit\Weibo\Components;
 
@@ -35,9 +35,11 @@ class Common extends ComponentBase
             $action = self::$actions[$name];
         }
 
-        if (isset($args[0]) && is_array($args[0])) {
+        if (count($args) === 1 && is_array($args[0])) {
             return $action->withParams($args[0])->execute();
-        } elseif (count($args) > 0 || $action->hasNoParams()) {
+        } elseif (count($args) > 0) {
+            return $action->withParamList($args)->execute();
+        } elseif ($action->hasNoParams()) {
             return $action->execute();
         }
 

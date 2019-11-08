@@ -1,7 +1,7 @@
 <?php
 /**
  * @author   Fung Wing Kit <wengee@gmail.com>
- * @version  2019-10-10 15:58:32 +0800
+ * @version  2019-11-08 11:56:22 +0800
  */
 namespace fwkit\Weibo\Components;
 
@@ -80,6 +80,25 @@ class Action extends ComponentBase
             if (is_string($key)) {
                 $this->withParam($key, $value);
             }
+        }
+
+        return $this;
+    }
+
+    public function withParamList(array $params)
+    {
+        if ($this->params === false) {
+            return $this;
+        }
+
+        $i = 0;
+        foreach ($this->params as $key) {
+            if (!isset($params[$i])) {
+                break;
+            }
+
+            $this->data[$key] = $params[$i];
+            $i += 1;
         }
 
         return $this;

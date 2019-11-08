@@ -21,7 +21,7 @@ trait HasHttpRequests
         }
 
         $method = strtoupper($method);
-        if (!preg_match('#^https?://.+#i', $url) && property_exists($this, 'baseUri') && !is_null($this->baseUri)) {
+        if (!isset($options['base_uri']) && !preg_match('#^https?://.+#i', $url) && property_exists($this, 'baseUri') && !is_null($this->baseUri)) {
             $options['base_uri'] = $this->baseUri;
         }
 

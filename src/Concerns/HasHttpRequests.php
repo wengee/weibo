@@ -1,11 +1,10 @@
 <?php
 /**
  * @author   Fung Wing Kit <wengee@gmail.com>
- * @version  2019-02-22 10:56:33 +0800
+ * @version  2019-11-19 15:48:02 +0800
  */
 namespace fwkit\Weibo\Concerns;
 
-use fwkit\Weibo\GuzzleDefaultHandler;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
 
@@ -15,9 +14,7 @@ trait HasHttpRequests
     {
         static $client;
         if (!isset($client)) {
-            $client = new Client([
-                'handler' => GuzzleDefaultHandler::getDefaultHandler(),
-            ]);
+            $client = new Client;
         }
 
         $method = strtoupper($method);

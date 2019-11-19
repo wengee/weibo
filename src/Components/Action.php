@@ -1,7 +1,7 @@
 <?php
 /**
  * @author   Fung Wing Kit <wengee@gmail.com>
- * @version  2019-11-08 11:56:22 +0800
+ * @version  2019-11-19 11:35:06 +0800
  */
 namespace fwkit\Weibo\Components;
 
@@ -92,8 +92,10 @@ class Action extends ComponentBase
         }
 
         $i = 0;
+        $params = array_values($params);
+        $count = count($params);
         foreach ($this->params as $key) {
-            if (!isset($params[$i])) {
+            if ($i >= $count) {
                 break;
             }
 

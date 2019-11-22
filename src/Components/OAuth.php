@@ -58,7 +58,7 @@ class OAuth extends ComponentBase
         }
 
         $res = $this->post('https://api.weibo.com/oauth2/access_token', [
-            'body' => $params,
+            'form_params' => $params,
         ], false);
 
         return $this->checkResponse($res, [

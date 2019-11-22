@@ -1,7 +1,7 @@
 <?php
 /**
  * @author   Fung Wing Kit <wengee@gmail.com>
- * @version  2019-11-19 11:35:06 +0800
+ * @version  2019-11-22 15:07:43 +0800
  */
 namespace fwkit\Weibo\Components;
 
@@ -125,7 +125,7 @@ class Action extends ComponentBase
                 }
             }
 
-            $options['body'] = $this->data;
+            $options['form_params'] = $this->data;
             if ($multipart) {
                 $options['multipart'] = $multipart;
             }

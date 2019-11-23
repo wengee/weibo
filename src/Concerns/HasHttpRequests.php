@@ -1,7 +1,7 @@
 <?php
 /**
  * @author   Fung Wing Kit <wengee@gmail.com>
- * @version  2019-11-19 15:48:02 +0800
+ * @version  2019-11-23 17:55:00 +0800
  */
 namespace fwkit\Weibo\Concerns;
 
@@ -27,6 +27,14 @@ trait HasHttpRequests
 
             $options['headers'] = $options['headers'] ?? [];
             $options['headers']['Authorization'] = 'OAuth2 ' . $accessToken;
+        } else {
+            $appKey = $this->getClientId();
+            $options['query'] = $options['query'] ?? [];
+            if (is_array($options['query'])) {
+                $options['query']['source'] = $appKey;
+            } elseif (is_string($options['query'])) {
+                $options['query'] = $options['query'] . ($options['query'] ? '&' : '?') . 'source=' . $appKey;
+            }
         }
 
         if (isset($options['withCert'])) {

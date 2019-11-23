@@ -1,7 +1,7 @@
 <?php
 /**
  * @author   Fung Wing Kit <wengee@gmail.com>
- * @version  2019-11-08 12:00:28 +0800
+ * @version  2019-11-23 17:58:00 +0800
  */
 namespace fwkit\Weibo;
 
@@ -86,8 +86,9 @@ class Client
 
         'emotion' => [
             'fetchAll' => [
-                'url'       => 'emotions.json',
-                'params'    => ['type', 'language'],
+                'url'           => 'emotions.json',
+                'accessToken'   => false,
+                'params'        => ['type', 'language'],
             ],
         ],
 
@@ -258,24 +259,28 @@ class Client
 
         'url' => [
             'shorten' => [
-                'url'       => 'short_url/shorten.json',
-                'params'    => ['url_long'],
-                'maps'      => ['urlLong' => 'url_long'],
+                'url'           => 'short_url/shorten.json',
+                'accessToken'   => false,
+                'params'        => ['url_long'],
+                'maps'          => ['urlLong' => 'url_long'],
             ],
             'expand' => [
-                'url'       => 'short_url/expand.json',
-                'params'    => ['url_short'],
-                'maps'      => ['urlShort' => 'url_short'],
+                'url'           => 'short_url/expand.json',
+                'accessToken'   => false,
+                'params'        => ['url_short'],
+                'maps'          => ['urlShort' => 'url_short'],
             ],
             'shareCounts' => [
-                'url'       => 'short_url/share/counts.json',
-                'params'    => ['url_short'],
-                'maps'      => ['urlShort' => 'url_short'],
+                'url'           => 'short_url/share/counts.json',
+                'accessToken'   => false,
+                'params'        => ['url_short'],
+                'maps'          => ['urlShort' => 'url_short'],
             ],
             'commentCounts' => [
-                'url'       => 'short_url/comment/counts.json',
-                'params'    => ['url_short'],
-                'maps'      => ['urlShort' => 'url_short'],
+                'url'           => 'short_url/comment/counts.json',
+                'accessToken'   => false,
+                'params'        => ['url_short'],
+                'maps'          => ['urlShort' => 'url_short'],
             ],
         ],
 

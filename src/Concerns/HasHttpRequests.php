@@ -1,7 +1,7 @@
 <?php
 /**
  * @author   Fung Wing Kit <wengee@gmail.com>
- * @version  2019-11-23 17:55:00 +0800
+ * @version  2019-11-29 18:48:14 +0800
  */
 namespace fwkit\Weibo\Concerns;
 
@@ -60,13 +60,6 @@ trait HasHttpRequests
     {
         if ($dataType === 'raw' || empty($dataType)) {
             return $response;
-        }
-
-        if ($response->getStatusCode() !== 200) {
-            throw new \Exception(
-                $response->getBody(),
-                $response->getStatusCode()
-            );
         }
 
         $res = null;

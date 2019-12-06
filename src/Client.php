@@ -1,7 +1,7 @@
 <?php
 /**
  * @author   Fung Wing Kit <wengee@gmail.com>
- * @version  2019-12-06 17:18:31 +0800
+ * @version  2019-12-06 18:42:10 +0800
  */
 namespace fwkit\Weibo;
 
@@ -81,6 +81,20 @@ class Client
                 'method'    => 'POST',
                 'params'    => ['status', 'pic', 'rip'],
                 'maps'      => ['remoteIp' => 'rip'],
+            ],
+            'queryId' => [
+                'url'       => 'statuses/queryid.json',
+                'params'    => ['mid', 'type', 'is_batch', 'inbox', 'isBase62'],
+                'maps'      => [
+                    'isBatch'   => 'is_batch',
+                ],
+            ],
+            'queryMid' => [
+                'url'       => 'statuses/querymid.json',
+                'params'    => ['id', 'type', 'is_batch'],
+                'maps'      => [
+                    'isBatch'   => 'is_batch',
+                ],
             ],
         ],
 

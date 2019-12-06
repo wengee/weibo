@@ -1,7 +1,7 @@
 <?php
 /**
  * @author   Fung Wing Kit <wengee@gmail.com>
- * @version  2019-11-23 17:58:00 +0800
+ * @version  2019-12-06 16:22:55 +0800
  */
 namespace fwkit\Weibo;
 
@@ -331,6 +331,7 @@ class Client
             'repost' => [
                 'url'       => 'https://c.api.weibo.com/2/statuses/repost/biz.json',
                 'params'    => ['id', 'status', 'is_comment', 'rip'],
+                'method'    => 'POST',
                 'maps'      => [
                     'isComment' => 'is_comment',
                     'remoteIp'  => 'rip',
@@ -339,10 +340,12 @@ class Client
             'destroy' => [
                 'url'       => 'https://c.api.weibo.com/2/statuses/destroy/biz.json',
                 'params'    => ['id'],
+                'method'    => 'POST',
             ],
             'update' => [
                 'url'       => 'https://c.api.weibo.com/2/statuses/update/biz.json',
                 'params'    => ['status', 'visible', 'list_id', 'lat', 'long', 'annotations', 'rip', 'is_longtext', 'custom_source'],
+                'method'    => 'POST',
                 'maps'      => [
                     'listId'        => 'list_id',
                     'latitude'      => 'lat',
@@ -355,6 +358,7 @@ class Client
             'upload' => [
                 'url'       => 'https://c.api.weibo.com/2/statuses/upload/biz.json',
                 'params'    => ['status', 'visible', 'list_id', 'pic', 'lat', 'long', 'annotations', 'rip'],
+                'method'    => 'POST',
                 'maps'      => [
                     'listId'        => 'list_id',
                     'latitude'      => 'lat',
@@ -365,6 +369,7 @@ class Client
             'uploadUrlText' => [
                 'url'       => 'https://c.api.weibo.com/2/statuses/upload_url_text/biz.json',
                 'params'    => ['status', 'visible', 'list_id', 'url', 'pic_id', 'lat', 'long', 'annotations', 'rip', 'is_longtext'],
+                'method'    => 'POST',
                 'maps'      => [
                     'listId'        => 'list_id',
                     'picId'         => 'pic_id',
@@ -377,6 +382,7 @@ class Client
             'uploadPic' => [
                 'url'       => 'https://c.api.weibo.com/2/statuses/upload_pic/biz.json',
                 'params'    => ['pic'],
+                'method'    => 'POST',
             ],
         ],
 
@@ -384,6 +390,7 @@ class Client
             'create' => [
                 'url'       => 'https://c.api.weibo.com/2/comments/create/biz.json',
                 'params'    => ['comment', 'id', 'comment_ori', 'rip'],
+                'method'    => 'POST',
                 'maps'      => [
                     'commentOri'    => 'comment_ori',
                     'remoteIp'      => 'rip',
@@ -392,11 +399,13 @@ class Client
             'destroy' => [
                 'url'       => 'https://c.api.weibo.com/2/comments/destroy/biz.json',
                 'params'    => ['cid'],
+                'method'    => 'POST',
                 'maps'      => ['commentId' => 'cid'],
             ],
             'reply' => [
                 'url'       => 'https://c.api.weibo.com/2/comments/reply/biz.json',
                 'params'    => ['cid', 'id', 'comment', 'without_mention', 'comment_ori', 'rip'],
+                'method'    => 'POST',
                 'maps'      => [
                     'commentId'         => 'cid',
                     'withoutMention'    => 'without_mention',

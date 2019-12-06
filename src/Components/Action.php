@@ -1,7 +1,7 @@
 <?php
 /**
  * @author   Fung Wing Kit <wengee@gmail.com>
- * @version  2019-11-22 15:07:43 +0800
+ * @version  2019-12-06 14:42:44 +0800
  */
 namespace fwkit\Weibo\Components;
 
@@ -111,23 +111,25 @@ class Action extends ComponentBase
         $options = [];
         $method = strtoupper($this->method);
         if ($method === 'POST') {
+            $useMultipart = false;
             $multipart = [];
             foreach ($this->data as $key => $value) {
                 if (is_string($value) && $value{0} === '@') {
                     $file = substr($value, 1);
-                    $file = new Stream(fopen($file, 'r'));
+                    $value = new Stream(fopen($file, 'r'));
+                }
 
-                    $multipart[] = ['name' => $key, 'contents' => $file];
-                    unset($this->data[$key]);
-                } elseif ($value instanceof StreamInterface) {
-                    $multipart[] = ['name' => $key, 'contents' => $value];
-                    unset($this->data[$key]);
+                $multipart[] = ['name' => $key, 'contents' => $value];
+                if ($value instanceof StreamInterface) {
+                    $useMultipart = true;
                 }
             }
 
-            $options['form_params'] = $this->data;
-            if ($multipart) {
+            if ($useMultipart) {
                 $options['multipart'] = $multipart;
+            } else {
+                unset($multipart);
+                $options['form_params'] = $this->data;
             }
         } else {
             $options['query'] = $this->data;

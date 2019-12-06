@@ -1,7 +1,7 @@
 <?php
 /**
  * @author   Fung Wing Kit <wengee@gmail.com>
- * @version  2019-12-06 16:22:55 +0800
+ * @version  2019-12-06 17:18:31 +0800
  */
 namespace fwkit\Weibo;
 
@@ -383,6 +383,20 @@ class Client
                 'url'       => 'https://c.api.weibo.com/2/statuses/upload_pic/biz.json',
                 'params'    => ['pic'],
                 'method'    => 'POST',
+            ],
+            'queryId' => [
+                'url'       => 'https://c.api.weibo.com/2/statuses/queryid/biz.json',
+                'params'    => ['mid', 'type', 'is_batch', 'inbox', 'isBase62'],
+                'maps'      => [
+                    'isBatch'   => 'is_batch',
+                ],
+            ],
+            'queryMid' => [
+                'url'       => 'https://c.api.weibo.com/2/statuses/querymid/biz.json',
+                'params'    => ['id', 'type', 'is_batch'],
+                'maps'      => [
+                    'isBatch'   => 'is_batch',
+                ],
             ],
         ],
 

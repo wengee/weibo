@@ -9,7 +9,7 @@ use fwkit\Weibo\ComponentBase;
 
 class Common extends ComponentBase
 {
-    protected static $actions = [];
+    protected $actions = [];
 
     protected $name;
 
@@ -27,12 +27,12 @@ class Common extends ComponentBase
             throw new \Exception('The operation is undefined.');
         }
 
-        if (!isset(self::$actions[$name])) {
+        if (!isset($this->actions[$name])) {
             $action = new Action($name, $this->actionList[$name]);
             $action->setClient($this->client);
-            self::$actions[$name] = $action;
+            $this->actions[$name] = $action;
         } else {
-            $action = self::$actions[$name];
+            $action = $this->actions[$name];
         }
 
         if (count($args) === 1 && is_array($args[0])) {

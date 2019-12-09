@@ -1,7 +1,7 @@
 <?php
 /**
  * @author   Fung Wing Kit <wengee@gmail.com>
- * @version  2019-02-22 16:56:20 +0800
+ * @version  2019-12-09 11:54:45 +0800
  */
 namespace fwkit\Weibo\Components;
 
@@ -67,9 +67,11 @@ class OAuth extends ComponentBase
         ]);
     }
 
-    public function getTokenInfo(?string $accessToken = null)
+    public function getTokenInfo(string $accessToken)
     {
-        $res = $this->post('https://api.weibo.com/oauth2/get_token_info', [], $accessToken);
+        $res = $this->post('https://api.weibo.com/oauth2/get_token_info', [
+            'form_params' => ['access_token' => $accessToken],
+        ], false);
         return $this->checkResponse($res, [
             'appkey' => 'appKey',
             'create_at' => 'created',
@@ -77,9 +79,11 @@ class OAuth extends ComponentBase
         ]);
     }
 
-    public function revoke(?string $accessToken = null)
+    public function revoke(string $accessToken)
     {
-        $res = $this->post('https://api.weibo.com/oauth2/revokeoauth2', [], $accessToken);
+        $res = $this->post('https://api.weibo.com/oauth2/revokeoauth2', [
+            'form_params' => ['access_token' => $accessToken],
+        ], false);
         $this->checkResponse($res);
         return true;
     }

@@ -1,7 +1,7 @@
 <?php
 /**
  * @author   Fung Wing Kit <wengee@gmail.com>
- * @version  2019-12-06 14:42:44 +0800
+ * @version  2020-08-14 11:56:21 +0800
  */
 namespace fwkit\Weibo\Components;
 
@@ -114,7 +114,7 @@ class Action extends ComponentBase
             $useMultipart = false;
             $multipart = [];
             foreach ($this->data as $key => $value) {
-                if (is_string($value) && $value{0} === '@') {
+                if (is_string($value) && $value[0] === '@') {
                     $file = substr($value, 1);
                     $value = new Stream(fopen($file, 'r'));
                 }

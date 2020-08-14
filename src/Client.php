@@ -1,7 +1,7 @@
 <?php
 /**
  * @author   Fung Wing Kit <wengee@gmail.com>
- * @version  2019-12-06 18:42:10 +0800
+ * @version  2020-08-14 11:54:21 +0800
  */
 namespace fwkit\Weibo;
 
@@ -453,9 +453,7 @@ class Client
     public function __construct(array $options)
     {
         $this->setOptions($options);
-        if (method_exists($this, 'initialize')) {
-            $this->initialize();
-        }
+        $this->initialize();
     }
 
     public function setAccessToken(?string $accessToken)
@@ -477,5 +475,9 @@ class Client
     public function getClientSecret()
     {
         return $this->clientSecret;
+    }
+
+    protected function initialize()
+    {
     }
 }

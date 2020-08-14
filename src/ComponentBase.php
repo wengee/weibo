@@ -40,7 +40,7 @@ abstract class ComponentBase
                 $res = $this->transformKeys($res, $map);
             }
 
-            return $this->makeCollection($res);
+            return $res;
         }
 
         if ($strict) {
@@ -67,10 +67,5 @@ abstract class ComponentBase
         }
 
         return $ret;
-    }
-
-    protected function makeCollection($arr)
-    {
-        return new Collection($arr);
     }
 }

@@ -1,7 +1,7 @@
 <?php
 /**
  * @author   Fung Wing Kit <wengee@gmail.com>
- * @version  2019-02-22 14:59:29 +0800
+ * @version  2020-08-14 14:18:59 +0800
  */
 namespace fwkit\Weibo;
 
@@ -40,7 +40,7 @@ abstract class ComponentBase
                 $res = $this->transformKeys($res, $map);
             }
 
-            return $res;
+            return $this->makeCollection($res);
         }
 
         if ($strict) {
@@ -67,5 +67,10 @@ abstract class ComponentBase
         }
 
         return $ret;
+    }
+
+    protected function makeCollection($arr)
+    {
+        return new Collection($arr);
     }
 }

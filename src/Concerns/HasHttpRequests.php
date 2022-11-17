@@ -1,8 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author   Fung Wing Kit <wengee@gmail.com>
- * @version  2019-11-29 18:48:14 +0800
+ * @version  2022-11-17 16:29:03 +0800
  */
+
 namespace fwkit\Weibo\Concerns;
 
 use GuzzleHttp\Client;
@@ -14,7 +15,7 @@ trait HasHttpRequests
     {
         static $client;
         if (!isset($client)) {
-            $client = new Client;
+            $client = new Client();
         }
 
         $method = strtoupper($method);
@@ -22,18 +23,18 @@ trait HasHttpRequests
             $options['base_uri'] = $this->baseUri;
         }
 
-        if ($accessToken !== false) {
+        if (false !== $accessToken) {
             $accessToken = $accessToken ?: $this->getAccessToken();
 
-            $options['headers'] = $options['headers'] ?? [];
-            $options['headers']['Authorization'] = 'OAuth2 ' . $accessToken;
+            $options['headers']                  = $options['headers'] ?? [];
+            $options['headers']['Authorization'] = 'OAuth2 '.$accessToken;
         } else {
-            $appKey = $this->getClientId();
+            $appKey           = $this->getClientId();
             $options['query'] = $options['query'] ?? [];
             if (is_array($options['query'])) {
                 $options['query']['source'] = $appKey;
             } elseif (is_string($options['query'])) {
-                $options['query'] = $options['query'] . ($options['query'] ? '&' : '?') . 'source=' . $appKey;
+                $options['query'] = $options['query'].($options['query'] ? '&' : '?').'source='.$appKey;
             }
         }
 
@@ -42,7 +43,7 @@ trait HasHttpRequests
             unset($options['withCert']);
 
             if ($withCert) {
-                $options['cert'] = $this->sslCert;
+                $options['cert']    = $this->sslCert;
                 $options['ssl_key'] = $this->sslKey;
             }
         }
@@ -53,29 +54,30 @@ trait HasHttpRequests
         }
 
         $response = $client->request($method, $url, $options);
+
         return $this->parseResponse($response);
     }
 
     protected function parseResponse(Response $response, $dataType = 'auto')
     {
-        if ($dataType === 'raw' || empty($dataType)) {
+        if ('raw' === $dataType || empty($dataType)) {
             return $response;
         }
 
-        $res = null;
-        $body = trim($response->getBody());
+        $res  = null;
+        $body = $response->getBody()->getContents();
         if ($body) {
-            if ($dataType === 'xml' || ($dataType === 'auto' && $body{0} === '<')) {
+            if ('xml' === $dataType || ('auto' === $dataType && '<' === $body[0])) {
                 $backup = libxml_disable_entity_loader(true);
-                $res = @simplexml_load_string($body, 'SimpleXMLElement', LIBXML_NOCDATA);
-                $res = $res ? json_decode(json_encode($res), true) : null;
+                $res    = @simplexml_load_string($body, 'SimpleXMLElement', LIBXML_NOCDATA);
+                $res    = $res ? json_decode(json_encode($res), true) : null;
 
                 libxml_disable_entity_loader($backup);
-            } elseif ($dataType === 'json' || $dataType === 'auto') {
+            } elseif ('json' === $dataType || 'auto' === $dataType) {
                 $res = @json_decode($body, true);
             }
         }
 
-        return ($dataType === 'auto') ? ($res ?: $response) : $res;
+        return ('auto' === $dataType) ? ($res ?: $response) : $res;
     }
 }

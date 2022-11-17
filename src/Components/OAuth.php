@@ -1,58 +1,60 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author   Fung Wing Kit <wengee@gmail.com>
- * @version  2019-12-09 11:58:11 +0800
+ * @version  2022-11-17 16:50:12 +0800
  */
+
 namespace fwkit\Weibo\Components;
 
 use fwkit\Weibo\ComponentBase;
 
 class OAuth extends ComponentBase
 {
-    public function authorizeUrl(string $url, string $state = null, ?string $scope = null, ?string $display = null, ?bool $forceLogin = null, ?string $language = null): string
+    public function authorizeUrl(string $url, string $state = '', ?string $scope = null, ?string $display = null, ?bool $forceLogin = null, ?string $language = null): string
     {
         $query = [
-            'client_id' => $this->client->getClientId(),
+            'client_id'    => $this->client->getClientId(),
             'redirect_uri' => $url,
-            'state' => $state,
+            'state'        => $state,
         ];
-        if ($scope !== null) {
+
+        if (null !== $scope) {
             $query['scope'] = $scope;
         }
 
-        if ($display !== null) {
+        if (null !== $display) {
             $query['display'] = $display;
         }
 
-        if ($forceLogin !== null) {
+        if (null !== $forceLogin) {
             $query['forcelogin'] = $forceLogin ? 1 : 0;
         }
 
-        if ($language !== null) {
+        if (null !== $language) {
             $query['language'] = $language;
         }
 
-        return 'https://api.weibo.com/oauth2/authorize?' . http_build_query($query);
+        return 'https://api.weibo.com/oauth2/authorize?'.http_build_query($query);
     }
 
-    public function getAccessToken(string $type = 'code', $arg1, $arg2)
+    public function getAccessToken(string $type = 'code', ?string $arg1 = null, ?string $arg2 = null)
     {
         $params = [
-            'client_id' => $this->client->getClientId(),
+            'client_id'     => $this->client->getClientId(),
             'client_secret' => $this->client->getClientSecret(),
         ];
 
-        if ($type === 'token') {
-            $params['grant_type'] = 'refresh_token';
+        if ('token' === $type) {
+            $params['grant_type']    = 'refresh_token';
             $params['refresh_token'] = $arg1;
-        } elseif ($type === 'code') {
-            $params['grant_type'] = 'authorization_code';
-            $params['code'] = $arg1;
+        } elseif ('code' === $type) {
+            $params['grant_type']   = 'authorization_code';
+            $params['code']         = $arg1;
             $params['redirect_uri'] = $arg2;
-        } elseif ($type === 'password') {
+        } elseif ('password' === $type) {
             $params['grant_type'] = 'password';
-            $params['username'] = $arg1;
-            $params['password'] = $arg2;
+            $params['username']   = $arg1;
+            $params['password']   = $arg2;
         } else {
             throw new \Exception('wrong auth type');
         }
@@ -63,18 +65,19 @@ class OAuth extends ComponentBase
 
         return $this->checkResponse($res, [
             'access_token' => 'accessToken',
-            'expires_in' => 'expiresIn',
+            'expires_in'   => 'expiresIn',
         ]);
     }
 
     public function getTokenInfo(?string $accessToken = null)
     {
         $accessToken = $accessToken ?: $this->client->getAccessToken();
-        $res = $this->post('https://api.weibo.com/oauth2/get_token_info', [
+        $res         = $this->post('https://api.weibo.com/oauth2/get_token_info', [
             'form_params' => ['access_token' => $accessToken],
         ], false);
+
         return $this->checkResponse($res, [
-            'appkey' => 'appKey',
+            'appkey'    => 'appKey',
             'create_at' => 'created',
             'expire_in' => 'expiresIn',
         ]);
@@ -83,10 +86,11 @@ class OAuth extends ComponentBase
     public function revoke(?string $accessToken = null)
     {
         $accessToken = $accessToken ?: $this->client->getAccessToken();
-        $res = $this->post('https://api.weibo.com/oauth2/revokeoauth2', [
+        $res         = $this->post('https://api.weibo.com/oauth2/revokeoauth2', [
             'form_params' => ['access_token' => $accessToken],
         ], false);
         $this->checkResponse($res);
+
         return true;
     }
 }

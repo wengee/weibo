@@ -1,8 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author   Fung Wing Kit <wengee@gmail.com>
- * @version  2020-08-14 11:56:21 +0800
+ * @version  2022-11-17 17:44:24 +0800
  */
+
 namespace fwkit\Weibo\Components;
 
 use fwkit\Weibo\ComponentBase;
@@ -20,7 +21,7 @@ class Action extends ComponentBase
 
     protected $method = 'GET';
 
-    protected $accessToken = null;
+    protected $accessToken;
 
     protected $params = [];
 
@@ -38,13 +39,13 @@ class Action extends ComponentBase
     public function __call(string $method, array $args)
     {
         $key = null;
-        if (strpos($method, 'set') === 0) {
+        if (0 === strpos($method, 'set')) {
             $key = lcfirst(substr($method, 3));
-        } elseif (strpos($method, 'with') === 0) {
+        } elseif (0 === strpos($method, 'with')) {
             $key = lcfirst(substr($method, 4));
         }
 
-        if ($key !== null) {
+        if (null !== $key) {
             $value = $args[0] ?? null;
             $this->withParam($key, $value);
         }
@@ -54,12 +55,12 @@ class Action extends ComponentBase
 
     public function hasNoParams(): bool
     {
-        return $this->params === false ? true : false;
+        return false === $this->params ? true : false;
     }
 
     public function withParam(string $key, $value)
     {
-        if ($this->params === false) {
+        if (false === $this->params) {
             return $this;
         }
 
@@ -87,20 +88,20 @@ class Action extends ComponentBase
 
     public function withParamList(array $params)
     {
-        if ($this->params === false) {
+        if (false === $this->params) {
             return $this;
         }
 
-        $i = 0;
+        $i      = 0;
         $params = array_values($params);
-        $count = count($params);
+        $count  = count($params);
         foreach ($this->params as $key) {
             if ($i >= $count) {
                 break;
             }
 
             $this->data[$key] = $params[$i];
-            $i += 1;
+            ++$i;
         }
 
         return $this;
@@ -109,13 +110,13 @@ class Action extends ComponentBase
     public function execute()
     {
         $options = [];
-        $method = strtoupper($this->method);
-        if ($method === 'POST') {
+        $method  = strtoupper($this->method);
+        if ('POST' === $method) {
             $useMultipart = false;
-            $multipart = [];
+            $multipart    = [];
             foreach ($this->data as $key => $value) {
-                if (is_string($value) && $value[0] === '@') {
-                    $file = substr($value, 1);
+                if (is_string($value) && '@' === $value[0]) {
+                    $file  = substr($value, 1);
                     $value = new Stream(fopen($file, 'r'));
                 }
 
@@ -132,10 +133,13 @@ class Action extends ComponentBase
                 $options['form_params'] = $this->data;
             }
         } else {
-            $options['query'] = $this->data;
+            $options['query'] = array_filter($this->data, function ($item) {
+                return !is_null($item);
+            });
         }
 
         $res = $this->request($method, $this->url, $options, $this->accessToken);
+
         return $this->checkResponse($res);
     }
 }

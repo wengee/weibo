@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 /**
  * @author   Fung Wing Kit <wengee@gmail.com>
- * @version  2022-11-17 16:50:12 +0800
+ * @version  2022-11-17 17:41:17 +0800
  */
 
 namespace fwkit\Weibo\Components;
@@ -37,7 +37,14 @@ class OAuth extends ComponentBase
         return 'https://api.weibo.com/oauth2/authorize?'.http_build_query($query);
     }
 
-    public function getAccessToken(string $type = 'code', ?string $arg1 = null, ?string $arg2 = null)
+    /**
+     * Get access token.
+     *
+     * @param string $type 取值范围： token, code, password
+     * @param string $arg1 type=token时为refresh_token, type=code时为code, type=password时为username
+     * @param string $arg2 type=code时为redirect_uri, type=password时为password
+     */
+    public function getAccessToken(string $type = 'code', string $arg1 = '', string $arg2 = '')
     {
         $params = [
             'client_id'     => $this->client->getClientId(),

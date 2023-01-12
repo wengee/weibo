@@ -1,8 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author   Fung Wing Kit <wengee@gmail.com>
- * @version  2019-02-22 16:01:30 +0800
+ * @version  2023-01-12 22:50:08 +0800
  */
+
 namespace fwkit\Weibo\Concerns;
 
 trait HasComponents
@@ -20,19 +21,21 @@ trait HasComponents
             return $this->components[$name];
         }
 
-        $className = $this->componentList[$name] ?? null;
+        $className = $this->getComponentConfig($name);
         if (is_array($className)) {
             $commonClass = property_exists($this, 'defaultComponent') ? $this->defaultComponent : null;
             if ($commonClass) {
                 $component = new $commonClass($name, $className);
                 $component->setClient($this);
                 $this->components[$name] = $component;
+
                 return $component;
             }
-        } elseif ($className !== null) {
-            $component = new $className;
+        } elseif (null !== $className) {
+            $component = new $className();
             $component->setClient($this);
             $this->components[$name] = $component;
+
             return $component;
         }
 

@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 /**
  * @author   Fung Wing Kit <wengee@gmail.com>
- * @version  2023-01-12 22:51:38 +0800
+ * @version  2023-01-12 23:28:23 +0800
  */
 
 namespace fwkit\Weibo;
@@ -143,6 +143,22 @@ class Client
                     'commentOri'     => 'comment_ori',
                     'remoteIp'       => 'rip',
                 ],
+            ],
+        ],
+
+        'user' => [
+            'show' => [
+                'url'    => 'users/show.json',
+                'params' => ['uid', 'screen_name'],
+                'maps'   => [
+                    'id'         => 'uid',
+                    'userId'     => 'uid',
+                    'screenName' => 'screen_name',
+                ],
+            ],
+            'domainShow' => [
+                'url'    => 'users/domain_show.json',
+                'params' => ['domain'],
             ],
         ],
 
